@@ -93,8 +93,9 @@ impl Utc {
     )))]
     #[must_use]
     pub fn now() -> DateTime<Utc> {
-        let now =
-            SystemTime::now().duration_since(UNIX_EPOCH).expect("system time before Unix epoch");
+        let now = SystemTime::UNIX_EPOCH
+            .duration_since(UNIX_EPOCH)
+            .expect("system time before Unix epoch");
         DateTime::from_timestamp(now.as_secs() as i64, now.subsec_nanos()).unwrap()
     }
 
@@ -106,8 +107,9 @@ impl Utc {
     ))]
     #[must_use]
     pub fn now() -> DateTime<Utc> {
-        let now = js_sys::Date::new_0();
-        DateTime::<Utc>::from(now)
+        unreachable!()
+        // let now = js_sys::Date::new_0();
+        // DateTime::<Utc>::from(now)
     }
 }
 

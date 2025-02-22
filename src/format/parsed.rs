@@ -4,7 +4,7 @@
 //! A collection of parsed date and time items.
 //! They can be constructed incrementally while being checked for consistency.
 
-use super::{IMPOSSIBLE, NOT_ENOUGH, OUT_OF_RANGE, ParseResult};
+use super::{ParseResult, IMPOSSIBLE, NOT_ENOUGH, OUT_OF_RANGE};
 use crate::naive::{NaiveDate, NaiveDateTime, NaiveTime};
 use crate::offset::{FixedOffset, MappedLocalTime, Offset, TimeZone};
 use crate::{DateTime, Datelike, TimeDelta, Timelike, Weekday};
@@ -698,7 +698,11 @@ impl Parsed {
             (_, _, _) => return Err(NOT_ENOUGH),
         };
 
-        if verified { Ok(parsed_date) } else { Err(IMPOSSIBLE) }
+        if verified {
+            Ok(parsed_date)
+        } else {
+            Err(IMPOSSIBLE)
+        }
     }
 
     /// Returns a parsed naive time out of given fields.
@@ -1159,10 +1163,10 @@ fn resolve_week_date(
 mod tests {
     use super::super::{IMPOSSIBLE, NOT_ENOUGH, OUT_OF_RANGE};
     use super::Parsed;
-    use crate::Datelike;
-    use crate::Weekday::*;
     use crate::naive::{NaiveDate, NaiveTime};
     use crate::offset::{FixedOffset, TimeZone, Utc};
+    use crate::Datelike;
+    use crate::Weekday::*;
 
     #[test]
     fn test_parsed_set_fields() {

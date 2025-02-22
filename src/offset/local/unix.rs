@@ -53,12 +53,12 @@ impl Source {
                     // we have to pick a sensible default when the mtime fails
                     // by picking SystemTime::now() we raise the probability of
                     // the cache being invalidated if/when the mtime starts working
-                    mtime: data.modified().unwrap_or_else(|_| SystemTime::now()),
+                    mtime: data.modified().unwrap(),
                 },
                 Err(_) => {
                     // as above, now() should be a better default than some constant
                     // TODO: see if we can improve caching in the case where the fallback is a valid timezone
-                    Source::LocalTime { mtime: SystemTime::now() }
+                    unreachable!()
                 }
             },
         }
@@ -92,7 +92,7 @@ impl Default for Cache {
         let env_tz = env::var("TZ").ok();
         let env_ref = env_tz.as_deref();
         Cache {
-            last_checked: SystemTime::now(),
+            last_checked: SystemTime::UNIX_EPOCH,
             source: Source::new(env_ref),
             zone: current_zone(env_ref),
         }
@@ -105,7 +105,7 @@ fn current_zone(var: Option<&str>) -> TimeZone {
 
 impl Cache {
     fn offset(&mut self, d: NaiveDateTime, local: bool) -> MappedLocalTime<FixedOffset> {
-        let now = SystemTime::now();
+        let now = SystemTime::UNIX_EPOCH;
 
         match now.duration_since(self.last_checked) {
             // If the cache has been around for less than a second then we reuse it

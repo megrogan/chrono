@@ -1096,10 +1096,8 @@ fn test_parse_from_str() {
         Ok(ymdhms(&edt, 2014, 5, 7, 12, 34, 56))
     ); // ignore offset
     assert!(DateTime::parse_from_str("20140507000000", "%Y%m%d%H%M%S").is_err()); // no offset
-    assert!(
-        DateTime::parse_from_str("Fri, 09 Aug 2013 23:54:35 GMT", "%a, %d %b %Y %H:%M:%S GMT")
-            .is_err()
-    );
+    assert!(DateTime::parse_from_str("Fri, 09 Aug 2013 23:54:35 GMT", "%a, %d %b %Y %H:%M:%S GMT")
+        .is_err());
     assert_eq!(
         DateTime::parse_from_str("0", "%s").unwrap(),
         DateTime::from_timestamp(0, 0).unwrap().fixed_offset()

@@ -3,9 +3,9 @@ use std::iter;
 use std::num::ParseIntError;
 use std::str::{self, FromStr};
 
-use super::Error;
 use super::rule::TransitionRule;
 use super::timezone::{LeapSecond, LocalTimeType, TimeZone, Transition};
+use super::Error;
 
 pub(super) fn parse(bytes: &[u8]) -> Result<TimeZone, Error> {
     let mut cursor = Cursor::new(bytes);

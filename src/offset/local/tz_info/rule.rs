@@ -1,7 +1,7 @@
 use super::parser::Cursor;
 use super::timezone::{LocalTimeType, SECONDS_PER_WEEK};
 use super::{
-    CUMUL_DAY_IN_MONTHS_NORMAL_YEAR, DAY_IN_MONTHS_NORMAL_YEAR, DAYS_PER_WEEK, Error,
+    Error, CUMUL_DAY_IN_MONTHS_NORMAL_YEAR, DAYS_PER_WEEK, DAY_IN_MONTHS_NORMAL_YEAR,
     SECONDS_PER_DAY,
 };
 use crate::{Datelike, NaiveDateTime};
@@ -219,7 +219,11 @@ impl AlternateTime {
                 }
             };
 
-        if is_dst { Ok(&self.dst) } else { Ok(&self.std) }
+        if is_dst {
+            Ok(&self.dst)
+        } else {
+            Ok(&self.std)
+        }
     }
 
     fn find_local_time_type_from_local(
